@@ -1,1 +1,1 @@
-# Vue Workshop
+# Vue 3 Workshop
