@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
-    <h1 class="montserrat-bold">01 Introduction à Vue</h1>
+  <header>Header</header>
+  <div class="app__content">
+    <main>Main</main>
+    <sidebar>Sidebar</sidebar>
   </div>
+  <footer>Footer</footer>
 </template>

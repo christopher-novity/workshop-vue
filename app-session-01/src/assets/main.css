@@ -2,11 +2,16 @@
 @import './modern-normalize.css';
 @import './base.css';
 
-#app {
+.app {
   display: grid;
-  place-items: center;
+  grid-template-rows: auto 1fr auto;
   width: 100vw;
   height: 100vh;
+}
+
+.app__content {
+  display: grid;
+  grid-template-columns: 1fr min(320px, 30vw);
 }
 
 .container {
