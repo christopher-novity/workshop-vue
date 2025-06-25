@@ -8,10 +8,28 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il était une fois Vue...</title>
+    <title>Lectio</title>
   </head>
   <body>
-    <div id="app" class="app"></div>
+    <div id="app"></div>
+
+    <div class="app">
+      <header>Header</header>
+
+      <div class="app__content-wrapper">
+        <main class="app__content">
+          <ul class="book-list">
+            <li class="book-list__item">Book Item</li>
+
+            <li class="book-list__item">Book Item</li>
+          </ul>
+        </main>
+
+        <sidebar>Sidebar</sidebar>
+      </div>
+
+      <footer>Footer</footer>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -1,0 +1,57 @@
+
+@import './modern-normalize.css';
+@import './base.css';
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: 100vw;
+  height: 100vh;
+}
+
+.app__content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr min(20rem, 30vw);
+}
+
+.app__content {
+  padding: var(--spacing);
+}
+
+.book-list {
+   --book-list-columns: 1fr;
+   --book-list-item-spacing: 1rem;
+  
+  display: grid;
+  grid-template-columns: var(--book-list-columns);
+  gap: var(--spacing);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.book-list__item {
+  padding: var(--book-list-item-spacing);
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 48rem) {
+  .book-list {
+    --book-list-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {}
+
+@media (min-width: 80rem) {
+  .book-list {
+    --book-list-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 96rem) {}

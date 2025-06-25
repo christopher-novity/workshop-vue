@@ -1,53 +1,39 @@
 /* semantic color variables for this project */
 :root {
-  /* Primary */
-  --color-primary-blue: #001743;
+  --color-primary: #001743;
+  --color-secondary: #1976d2;
+  --color-tertiary: #ff9800;
 
-  /* Neutrals */
   --color-surface: #f9fafb;
   --color-background: #f5f7fa;
   --color-border: #e1e5ec;
-  --color-text: #3b4252;
-  --color-dark: #1a202c;
 
-  /* Accent Colors */
-  --color-accent-blue: #1976d2;
-  --color-accent-orange: #ff9800;
-  --color-success: #43a047;
-  --color-danger: #d32f2f;
-
-  /* Typography Support */
+  --color-text-dark: #3b4252;
   --color-text-muted: #666c7b;
-  --color-disabled: #a0aec0;
+  --color-text-disabled: #a0aec0;
+
+  --spacing: 1.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    /* Primary */
-    --color-primary-blue: #88a2ff;
+    --color-primary: #88a2ff;
+    --color-secondary: #60a5fa;
+    --color-tertiary: #fbbf24;
 
-    /* Neutrals */
     --color-surface: #1e293b;
     --color-background: #0f172a;
     --color-border: #334155;
-    --color-text: #e2e8f0;
-    --color-dark: #f9fafb;
 
-    /* Accents */
-    --color-accent-blue: #60a5fa;
-    --color-accent-orange: #fbbf24;
-    --color-success: #4ade80;
-    --color-danger: #ef4444;
-
-    /* Typography Support */
+    --color-text-dark: #e2e8f0;
     --color-text-muted: #94a3b8;
-    --color-disabled: #64748b;
+    --color-text-disabled: #64748b;
   }
-}
+} */
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--color-text-dark);
   background: var(--color-background);
   transition:
     color 0.5s,
