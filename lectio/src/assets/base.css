@@ -13,6 +13,7 @@
   --color-text-disabled: #a0aec0;
 
   --spacing: 1.5rem;
+  --rounded: 0.75rem;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -59,4 +60,68 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.container {
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-inline: var(--spacing);
+}
+
+.container--fluid {
+  max-width: 120rem;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding-inline: var(--spacing);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded);
+  cursor: pointer;
+  transition: background-color ease-in 0.25s;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--color-border);
+}
+
+.btn--primary {
+  background-color: var(--color-secondary);
+  border-color: transparent;
+  color: var(--color-surface);
+}
+
+.btn--primary:hover,
+.btn--primary:focus {
+  background-color: var(--color-primary);
+}
+
+.btn--secondary {
+  background-color: var(--color-tertiary);
+  border-color: transparent;
+  color: var(--color-surface);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus {
+  background-color: var(--color-primary);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
