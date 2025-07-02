@@ -4,9 +4,14 @@
 
 .app {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: min(20rem, 30vw) 1fr;
   width: 100%;
   height: 100vh;
+}
+
+.app__wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .app__header,
@@ -22,18 +27,31 @@
   border-top: 1px solid var(--color-border);
 }
 
-.app__main > div {
+/* .app__main > div {
   display: grid;
   grid-template-columns: 1fr min(20rem, 30vw);
   height: 100%;
-}
+} */
 
 /* .app__content {
   padding-inline: var(--spacing);
 } */
 
 .app__sidebar {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   background-color: var(--color-primary);
+  height: 100vh;
+}
+
+.app__sidebar-header,
+.app__sidebar-footer {
+  padding-inline: var(--spacing);
+}
+
+.app__sidebar-body {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .brand {
@@ -109,6 +127,16 @@
 /* .book-list__item {
   padding: var(--book-list-item-spacing);
 } */
+
+.reading-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  margin: 0;
+  padding: 0;
+  padding-inline: var(--spacing);
+  list-style: none;
+}
 
 .book-card {
   --book-card-spacing: 1.5rem;
