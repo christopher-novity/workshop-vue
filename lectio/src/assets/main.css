@@ -3,8 +3,9 @@
 @import './base.css';
 
 .app {
+  position: relative;
   display: grid;
-  grid-template-columns: min(20rem, 30vw) 1fr;
+  grid-template-columns: min(var(--panel-width), 30vw) 1fr;
   width: 100%;
   height: 100vh;
 }
@@ -12,11 +13,13 @@
 .app__wrapper {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  height: 100vh;
 }
 
 .app__header,
 .app__footer {
   padding-block: 0.5rem;
+  height: var(--header-height);
 }
 
 .app__header {
@@ -24,7 +27,15 @@
 }
 
 .app__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-top: 1px solid var(--color-border);
+}
+
+.app__main {
+  height: calc(100vh - 140px);
+  overflow-y: auto;
 }
 
 /* .app__main > div {
@@ -44,14 +55,73 @@
   height: 100vh;
 }
 
+.app__filter {
+  position: fixed;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  max-width: var(--panel-width);
+  background: var(--color-background);
+  border-left: 1px solid var(--color-border);
+  z-index: 9999;
+}
+
+.app__sidebar-body,
+.app__filter-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .app__sidebar-header,
-.app__sidebar-footer {
+.app__sidebar-footer,
+.app__filter-header,
+.app__filter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  padding-block: 0.5rem;
   padding-inline: var(--spacing);
 }
 
-.app__sidebar-body {
-  overflow-x: hidden;
-  overflow-y: auto;
+.app__filter-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: var(--spacing);
+}
+
+.app__filter ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app__filter li {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app__filter fieldset {
+  margin-block: 0;
+  margin-inline: var(--spacing);
+  padding: 0 0 1rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app__filter h4 {
+  margin-block-end: 0.5rem;
+}
+
+.app__filter input {
+  padding-right: 0.5rem;
 }
 
 .brand {
@@ -133,8 +203,7 @@
   flex-direction: column;
   gap: var(--spacing);
   margin: 0;
-  padding: 0;
-  padding-inline: var(--spacing);
+  padding: var(--spacing);
   list-style: none;
 }
 
@@ -195,7 +264,27 @@
 }
 
 .book-card__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
   margin-block-start: auto;
+}
+
+.book-card--selected .book-card__header {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .book-card--selected .book-card__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+} */
+
+.book-card--selected .book-card__meta {
+  width: 100%;
 }
 
 @media (min-width: 48rem) {

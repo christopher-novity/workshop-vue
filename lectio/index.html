@@ -16,33 +16,41 @@
     <div class="app">
       <sidebar class="app__sidebar">
         <header class="app__sidebar-header">
-          <h3>Reading List</h3>
+          <h3>Your Reading List</h3>
+
+          <button type="button" class="btn btn--icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#3b4252" viewBox="0 0 24 24" width="24" height="24" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+
+            <span class="sr-only">Close</span>
+          </button>
         </header>
 
         <div class="app__sidebar-body">
           <ul class="reading-list">
             <li class="reading-list__item">
-              <div class="book-card">
+              <div class="book-card book-card--selected">
                 <header class="book-card__header">
                   <img src="./src/assets/images/book-cover-01.jpg" width="115" height="180" role="presentation" />
 
                   <div class="book-card__meta">
                     <h2>Atomic Habits</h2>
                     <h3>by James Clear</h3>
-                    <small>Published 2025</small>
                   </div>
                 </header>
 
                 <div class="book-card__footer">
-                  <button type="button" class="btn btn--secondary">Remove</button>
-
                   <button type="button" class="btn btn--primary">Mark as Read</button>
+
+                  <button type="button" class="btn btn--secondary">Remove</button>
                 </div>
               </div>
             </li>
 
             <li class="reading-list__item">
-              <div class="book-card">
+              <div class="book-card book-card--selected">
                 <header class="book-card__header">
                   <img src="./src/assets/images/book-cover-02.jpg" width="115" height="180" role="presentation" />
 
@@ -54,49 +62,9 @@
                 </header>
 
                 <div class="book-card__footer">
-                  <button type="button" class="btn btn--secondary">Remove</button>
-
                   <button type="button" class="btn btn--primary">Mark as Read</button>
-                </div>
-              </div>
-            </li>
 
-            <li class="reading-list__item">
-              <div class="book-card">
-                <header class="book-card__header">
-                  <img src="./src/assets/images/book-cover-01.jpg" width="115" height="180" role="presentation" />
-
-                  <div class="book-card__meta">
-                    <h2>Atomic Habits</h2>
-                    <h3>by James Clear</h3>
-                    <small>Published 2025</small>
-                  </div>
-                </header>
-
-                <div class="book-card__footer">
                   <button type="button" class="btn btn--secondary">Remove</button>
-
-                  <button type="button" class="btn btn--primary">Mark as Read</button>
-                </div>
-              </div>
-            </li>
-
-            <li class="reading-list__item">
-              <div class="book-card">
-                <header class="book-card__header">
-                  <img src="./src/assets/images/book-cover-02.jpg" width="115" height="180" role="presentation" />
-
-                  <div class="book-card__meta">
-                    <h2>The Psychology of Money</h2>
-                    <h3>by Morgan Housel</h3>
-                    <small>Published 2020</small>
-                  </div>
-                </header>
-
-                <div class="book-card__footer">
-                  <button type="button" class="btn btn--secondary">Remove</button>
-
-                  <button type="button" class="btn btn--primary">Mark as Read</button>
                 </div>
               </div>
             </li>
@@ -116,7 +84,7 @@
         </header>
   
         <main class="app__main">
-          <div class="container">
+          <div class="container container--fluid">
             <div class="app__content">
               <div class="toolbar">
                 <form class="toolbar__search-form">
@@ -125,10 +93,21 @@
                 </form>
     
                 <button type="button" class="btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" stroke="#3b4252">
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" stroke="#3b4252">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                  </svg> -->
+
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke="#3b4252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="17" y1="16" x2="23" y2="16"></line>
                   </svg>
-    
                   Filter
                 </button>
               </div>
@@ -188,6 +167,102 @@
           </div>
         </footer>
       </div>
+
+      <!-- <form class="app__filter">
+        <header class="app__filter-header">
+          <h3>Filter</h3>
+
+          <button type="button" class="btn btn--icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#3b4252" viewBox="0 0 24 24" width="24" height="24" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+
+            <span class="sr-only">Close</span>
+          </button>
+        </header>
+
+        <div class="app__filter-body">
+          <fieldset>
+            <h4>Genre</h4>
+
+            <ul>
+              <li>
+                <input id="genre-1" type="checkbox" name="genre" value="genre-1" />
+                <label for="genre-1">Genre 1</label>
+              </li>
+
+              <li>
+                <input id="genre-2" type="checkbox" name="genre" value="genre-2" />
+                <label for="genre-2">Genre 2</label>
+              </li>
+
+              <li>
+                <input id="genre-3" type="checkbox" name="genre" value="genre-3" />
+                <label for="genre-3">Genre 3</label>
+              </li>
+
+              <li>
+               <input id="genre-4" type="checkbox" name="genre" value="genre-4" />
+                <label for="genre-4">Genre 4</label>
+              </li>
+            </ul>
+          </fieldset>
+
+          <fieldset>
+            <h4>Publication Year</h4>
+
+            <ul>
+              <li>
+                <input id="publication-1" type="checkbox" name="publication" value="publication-1" />
+                <label for="publication-1">Publication 1</label>
+              </li>
+
+              <li>
+                <input id="publication-2" type="checkbox" name="publication" value="publication-2" />
+                <label for="publication-2">Publication 2</label>
+              </li>
+
+              <li>
+                <input id="publication-3" type="checkbox" name="publication" value="publication-3" />
+                <label for="publication-3">Publication 3</label>
+              </li>
+
+              <li>
+                <input id="publication4" type="checkbox" name="publication" value="publication-4" />
+                <label for="publication4">Publication 4</label>
+              </li>
+            </ul>
+          </fieldset>
+
+          <fieldset>
+            <h4>Book Length</h4>
+
+            <ul>
+              <li>
+                <input id="quick" type="checkbox" name="book-length" value="quick" />
+                <label for="quick">Quick</label>
+              </li>
+
+              <li>
+                <input id="medium" type="checkbox" name="book-length" value="medium" />
+                <label for="medium">Medium</label>
+              </li>
+
+              <li>
+                <input id="long" type="checkbox" name="book-length" value="long" />
+                <label for="long">Long</label>
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+
+        <footer class="app__filter-footer">
+          <button type="button" class="btn btn--primary">Clear All</button>
+
+          <button type="button" class="btn btn--secondary">Apply</button>
+        </footer>
+      </form> -->
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

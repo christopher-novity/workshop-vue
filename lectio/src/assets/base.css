@@ -14,6 +14,9 @@
 
   --spacing: 1.5rem;
   --rounded: 0.75rem;
+
+  --header-height: 4.375rem;
+  --panel-width: 20rem;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -47,6 +50,11 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
 }
 
 .montserrat-bold {
@@ -112,6 +120,11 @@ body {
 .btn--secondary:hover,
 .btn--secondary:focus {
   background-color: var(--color-primary);
+}
+
+.btn--icon {
+  width: 3rem;
+  height: 3rem;
 }
 
 .sr-only {
