@@ -13,15 +13,14 @@
   <body>
     <div id="app"></div>
 
-    <div class="app">
+    <div class="app app--with-sidebar">
       <sidebar class="app__sidebar">
         <header class="app__sidebar-header">
-          <h3>Your Reading List</h3>
+          <h3>My Reading List</h3>
 
           <button type="button" class="btn btn--icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#3b4252" viewBox="0 0 24 24" width="24" height="24" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
+              <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
 
             <span class="sr-only">Close</span>
@@ -42,9 +41,22 @@
                 </header>
 
                 <div class="book-card__footer">
-                  <button type="button" class="btn btn--primary">Mark as Read</button>
+                  <button type="button" class="btn btn--primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#f9fafb">
+                      <g>
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
+                        <path d="m9 9.5l2 2l4-4"/>
+                      </g>
+                    </svg>
+                    Mark as Read
+                  </button>
 
-                  <button type="button" class="btn btn--secondary">Remove</button>
+                  <button type="button" class="btn btn--secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#f9fafb">
+                      <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6"/>
+                    </svg>
+                    Remove
+                  </button>
                 </div>
               </div>
             </li>
@@ -57,14 +69,26 @@
                   <div class="book-card__meta">
                     <h2>The Psychology of Money</h2>
                     <h3>by Morgan Housel</h3>
-                    <small>Published 2020</small>
                   </div>
                 </header>
 
                 <div class="book-card__footer">
-                  <button type="button" class="btn btn--primary">Mark as Read</button>
+                  <button type="button" class="btn btn--primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" width="24" height="24" stroke="#f9fafb">
+                      <g>
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
+                        <path d="m9 9.5l2 2l4-4"/>
+                      </g>
+                    </svg>
+                    Mark as Read
+                  </button>
 
-                  <button type="button" class="btn btn--secondary">Remove</button>
+                  <button type="button" class="btn btn--secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" width="24" height="24" stroke="#f9fafb">
+                      <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6"/>
+                    </svg>
+                    Remove
+                  </button>
                 </div>
               </div>
             </li>
@@ -72,14 +96,29 @@
         </div>
 
         <footer class="app__sidebar-footer">
-          <h3>Reading Stats</h3>
+          <div class="reading-progress">
+            <label for="progress">Current Reading Progress: <span>1/5</span></label>
+            <!-- <label for="progress">Total Books Read: <span>4</span></label> -->
+            <!-- <input id="progress" type="range" value="1" max="5" step="1" /> -->
+          </div>
         </footer>
       </sidebar>
 
       <div class="app__wrapper">
         <header class="app__header">
-          <div class="container container--fluid">
+          <div class="app__header-content container container--fluid">
             <a href="#" class="brand montserrat-bold">Lectio</a>
+
+            <button type="button" class="btn btn--icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
+                <g>
+                  <rect width="18" height="18" x="3" y="3" rx="2"/>
+                  <path d="M9 3v18m5-12l3 3l-3 3"/>
+                </g>
+              </svg>
+
+              <span class="sr-only">Toggle Panel</span>
+            </button>
           </div>
         </header>
   
@@ -90,23 +129,21 @@
                 <form class="toolbar__search-form">
                   <label for="search-books" class="sr-only">Search books</label>
                   <input id="search-books" type="text" name="Search books" placeholder="Search books..." />
+
+                  <button type="submit" class="btn btn--icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
+                      <g>
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21l-4.3-4.3"/>
+                      </g>
+                    </svg>
+
+                    <span class="sr-only">Search</span>
+                  </button>
                 </form>
     
                 <button type="button" class="btn">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" width="16" height="16" stroke="#3b4252">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
-                  </svg> -->
-
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke="#3b4252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="4" y1="21" x2="4" y2="14"></line>
-                    <line x1="4" y1="10" x2="4" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12" y2="3"></line>
-                    <line x1="20" y1="21" x2="20" y2="16"></line>
-                    <line x1="20" y1="12" x2="20" y2="3"></line>
-                    <line x1="1" y1="14" x2="7" y2="14"></line>
-                    <line x1="9" y1="8" x2="15" y2="8"></line>
-                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" stroke="#3b4252">
+                    <path d="M22 3H2l8 9.46V19l4 2v-8.54z"/>
                   </svg>
                   Filter
                 </button>
@@ -130,7 +167,12 @@
                     </div>
     
                     <div class="book-card__footer">
-                      <button type="button" class="btn btn--primary">Add to Reading List</button>
+                      <button type="button" class="btn btn--primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#f9fafb">
+                           <path d="M12 7v6m-8 6.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20M9 10h6"/>
+                        </svg>
+                        Add to Reading List
+                      </button>
                     </div>
                   </div>
                 </li>
@@ -152,7 +194,12 @@
                     </div>
     
                     <div class="book-card__footer">
-                      <button type="button" class="btn btn--primary">Add to Reading List</button>
+                      <button type="button" class="btn btn--primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#f9fafb">
+                           <path d="M12 7v6m-8 6.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20M9 10h6"/>
+                        </svg>
+                        Add to Reading List
+                      </button>
                     </div>
                   </div>
                 </li>
@@ -173,9 +220,8 @@
           <h3>Filter</h3>
 
           <button type="button" class="btn btn--icon">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#3b4252" viewBox="0 0 24 24" width="24" height="24" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
+              <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
 
             <span class="sr-only">Close</span>
