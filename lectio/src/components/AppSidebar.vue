@@ -1,0 +1,63 @@
+<script setup lang="ts">
+import ListReads from '@/components/ListReads.vue';
+</script>
+
+<template>
+  <sidebar class="app__sidebar">
+    <header class="app__sidebar-header">
+      <h3>My Reading List</h3>
+
+      <button type="button" class="btn btn--icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+
+        <span class="sr-only">Close</span>
+      </button>
+    </header>
+
+    <div class="app__sidebar-body">
+      <ListReads />
+    </div>
+
+    <footer class="app__sidebar-footer">
+      <div class="reading-progress">
+        <label for="progress">Current Reading Progress: <span>1/5</span></label>
+        <!-- <label for="progress">Total Books Read: <span>4</span></label> -->
+        <!-- <input id="progress" type="range" value="1" max="5" step="1" /> -->
+      </div>
+    </footer>
+  </sidebar>
+</template>
+
+<style scoped>
+.app__sidebar {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: var(--color-primary);
+  height: 100vh;
+}
+
+.app__sidebar-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.app__sidebar-header,
+.app__sidebar-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  padding-block: 0.5rem;
+  padding-inline: var(--spacing);
+}
+
+.app__sidebar h3 {
+  color: var(--color-surface);
+}
+
+.app__sidebar-footer h3 {
+  font-size: 1rem;
+}
+</style>
