@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import ListReads from '@/components/ListReads.vue';
+import { ReadList, ReadListItem } from '@/components/read-list';
+
+const emit = defineEmits(['toggleSidebar']);
+
+function handleToggleSidebar() {
+  emit('toggleSidebar');
+}
 </script>
 
 <template>
@@ -7,7 +13,11 @@ import ListReads from '@/components/ListReads.vue';
     <header class="app__sidebar-header">
       <h3>My Reading List</h3>
 
-      <button type="button" class="btn btn--icon">
+      <button
+        type="button"
+        class="btn btn--icon"
+        @click="handleToggleSidebar"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
           <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
@@ -17,7 +27,7 @@ import ListReads from '@/components/ListReads.vue';
     </header>
 
     <div class="app__sidebar-body">
-      <ListReads />
+      <slot />
     </div>
 
     <footer class="app__sidebar-footer">

@@ -1,3 +1,11 @@
+<script setup lang="ts">
+const emit = defineEmits(['toggleFilter']);
+
+function handleToggleFilter() {
+  emit('toggleFilter');
+}
+</script>
+
 <template>
   <div class="toolbar">
     <form class="toolbar__search-form">
@@ -15,7 +23,11 @@
       </button>
     </form>
 
-    <button type="button" class="btn">
+    <button
+      type="button"
+      class="btn"
+      @click="handleToggleFilter"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" stroke="#3b4252">
         <path d="M22 3H2l8 9.46V19l4 2v-8.54z"/>
       </svg>

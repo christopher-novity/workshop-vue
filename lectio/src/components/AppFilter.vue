@@ -1,9 +1,21 @@
+<script setup lang="ts">
+const emit = defineEmits(['toggleFilter']);
+
+function handleToggleFilter() {
+  emit('toggleFilter');
+}
+</script>
+
 <template>
   <form class="app__filter">
     <header class="app__filter-header">
       <h3>Filter</h3>
 
-      <button type="button" class="btn btn--icon">
+      <button
+        type="button"
+        class="btn btn--icon"
+        @click="handleToggleFilter"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
           <path d="M18 6L6 18M6 6l12 12"/>
         </svg>

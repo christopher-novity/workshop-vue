@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import AppFilter from '@/components/AppFilter.vue';
 import AppToolbar from '@/components/AppToolbar.vue';
-import ListBooks  from '@/components/ListBooks.vue';
+import { BookList, BookListItem } from '@/components/book-list';
+import { ReadList, ReadListItem } from '@/components/read-list';
+
+import { mockBooks } from '@/data/mockBooks';
+
+const books = ref(mockBooks);
+const reads = ref([]);
 
 const isSidebarVisible = ref(false);
 const isFilterVisible = ref(false);
 let appElement = null;
+
+function handleToggleSidebar() {
+  isSidebarVisible.value = !isSidebarVisible.value;
+}
+
+function handleToggleFilter() {
+  isFilterVisible.value = !isFilterVisible.value;
+}
 
 onMounted(() => {
   appElement = document.getElementById('app');
@@ -19,20 +33,41 @@ onMounted(() => {
     appElement.classList.add('app--with-sidebar');
   }
 });
+
+watch(isSidebarVisible, (newIsSidebarVisible) => {
+  if (appElement && newIsSidebarVisible) {
+    appElement.classList.add('app--with-sidebar');
+  } else {
+    appElement.classList.remove('app--with-sidebar');
+  }
+});
 </script>
 
 <template>
-  <AppSidebar v-if="isSidebarVisible" />
+  <AppSidebar
+    v-if="isSidebarVisible"
+    @toggle-sidebar="handleToggleSidebar"
+  >
+    <ReadList :reads="reads">
+      <template v-slot="{ item }">
+        <ReadListItem :book="item" />
+      </template>
+    </ReadList>
+  </AppSidebar>
 
   <div class="app__wrapper">
-    <AppHeader />
+    <AppHeader @toggle-sidebar="handleToggleSidebar" />
 
     <main class="app__main">
       <div class="container container--fluid">
         <div class="app__content">
-          <AppToolbar />
+          <AppToolbar @toggle-filter="handleToggleFilter" />
 
-          <ListBooks />
+          <BookList :books="books">
+            <template v-slot="{ item }">
+              <BookListItem :book="item"/>
+            </template>
+          </BookList>
         </div>
       </div>
     </main>
@@ -40,7 +75,10 @@ onMounted(() => {
     <AppFooter />
   </div>
 
-  <AppFilter v-if="isFilterVisible" />
+  <AppFilter
+    v-if="isFilterVisible"
+    @toggle-filter="handleToggleFilter"
+  />
 </template>
 
 <style>
