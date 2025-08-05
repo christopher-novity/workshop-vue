@@ -11,4 +11,5 @@ export type Book = {
   rating: number;
   pages: number;
   length: BookLength;
+  readDate?: Date;
 };

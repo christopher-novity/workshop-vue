@@ -1,17 +1,20 @@
 <script setup>
 const props = defineProps({
-  reads: Array
+  selectedBooks: {
+    type: Array,
+    default: [],
+  },
 });
 </script>
 
 <template>
   <ul class="reading-list">
     <li
-      v-for="read in reads"
-      :key="read.id"
+      v-for="book in selectedBooks"
+      :key="book.id"
       class="reading-list__item"
     >
-      <slot :item="read" />
+      <slot :item="book" />
     </li>
   </ul>
 </template>

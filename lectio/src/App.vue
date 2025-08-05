@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+<script setup>
+import { ref, computed, onMounted, watch } from 'vue';
 
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -12,10 +12,16 @@ import { ReadList, ReadListItem } from '@/components/read-list';
 import { mockBooks } from '@/data/mockBooks';
 
 const books = ref(mockBooks);
-const reads = ref([]);
+const booksRead = ref([]);
+const selectedBookIds = ref(new Set());
+
+const availableBooks = computed(() => books.value.filter(book => !selectedBookIds.value.has(book.id)));
+const selectedBooks = computed(() => books.value.filter(book => selectedBookIds.value.has(book.id)));
+const totalSelectedBooks = computed(() => selectedBooks.value.length);
 
 const isSidebarVisible = ref(false);
 const isFilterVisible = ref(false);
+
 let appElement = null;
 
 function handleToggleSidebar() {
@@ -24,6 +30,29 @@ function handleToggleSidebar() {
 
 function handleToggleFilter() {
   isFilterVisible.value = !isFilterVisible.value;
+}
+
+function handleSelectBook(bookId) {
+  selectedBookIds.value.add(bookId);
+}
+
+function handleUnSelectBook(bookId) {
+  selectedBookIds.value.delete(bookId);
+}
+
+function handleAddToBooksRead(bookId) {
+  const book = books.value.find(book => book.id === bookId);
+
+  booksRead.value.push({
+    ...book,
+    readDate: new Date()
+  });
+}
+
+function handleMarkAsReading(bookId) {
+  const bookIndex = selectedBooks.value.findIndex(selectedBook => selectedBook.id === bookId);
+
+  selectedBooks.value[bookIndex].isReading = true;
 }
 
 onMounted(() => {
@@ -46,11 +75,19 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
 <template>
   <AppSidebar
     v-if="isSidebarVisible"
+    :books-read="booksRead"
+    :selected-books="selectedBooks"
     @toggle-sidebar="handleToggleSidebar"
   >
-    <ReadList :reads="reads">
+    <ReadList :selected-books="selectedBooks">
       <template v-slot="{ item }">
-        <ReadListItem :book="item" />
+        <ReadListItem
+          :book="item"
+          :read-items="booksRead"
+          @mark-as-read="handleAddToBooksRead"
+          @mark-as-reading="handleMarkAsReading"
+          @unselect-book="handleUnSelectBook"
+        />
       </template>
     </ReadList>
   </AppSidebar>
@@ -63,9 +100,12 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
         <div class="app__content">
           <AppToolbar @toggle-filter="handleToggleFilter" />
 
-          <BookList :books="books">
+          <BookList :books="availableBooks">
             <template v-slot="{ item }">
-              <BookListItem :book="item"/>
+              <BookListItem
+                :book="item"
+                @select-book="handleSelectBook"
+              />
             </template>
           </BookList>
         </div>

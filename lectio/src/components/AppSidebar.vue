@@ -1,7 +1,22 @@
 <script setup lang="ts">
-import { ReadList, ReadListItem } from '@/components/read-list';
+import { computed } from 'vue';
+
+const props = defineProps({
+  booksRead: {
+    type: Array,
+    required: true,
+  },
+  selectedBooks: {
+    type: Array,
+    default: [],
+  },
+});
 
 const emit = defineEmits(['toggleSidebar']);
+
+const totalBooksRead = computed(() => props.booksRead.length);
+const totalSelectedBooks = computed(() => props.selectedBooks.length);
+const totalReadingInProgress = computed(() => props.selectedBooks.filter(selectedBook => selectedBook.isReading).length);
 
 function handleToggleSidebar() {
   emit('toggleSidebar');
@@ -9,7 +24,7 @@ function handleToggleSidebar() {
 </script>
 
 <template>
-  <sidebar class="app__sidebar">
+  <div class="app__sidebar">
     <header class="app__sidebar-header">
       <h3>My Reading List</h3>
 
@@ -32,12 +47,12 @@ function handleToggleSidebar() {
 
     <footer class="app__sidebar-footer">
       <div class="reading-progress">
-        <label for="progress">Current Reading Progress: <span>1/5</span></label>
-        <!-- <label for="progress">Total Books Read: <span>4</span></label> -->
+        <label>Current Reading Progress: <span>{{ totalReadingInProgress }}/{{ totalSelectedBooks }}</span></label>
+        <label>Total Books Read: <span>{{ totalBooksRead }}</span></label>
         <!-- <input id="progress" type="range" value="1" max="5" step="1" /> -->
       </div>
     </footer>
-  </sidebar>
+  </div>
 </template>
 
 <style scoped>
