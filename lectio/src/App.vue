@@ -14,8 +14,18 @@ import { mockBooks } from '@/data/mockBooks';
 const books = ref(mockBooks);
 const booksRead = ref([]);
 const selectedBookIds = ref(new Set());
+const bookSearchQuery = ref('');
 
-const availableBooks = computed(() => books.value.filter(book => !selectedBookIds.value.has(book.id)));
+const filteredBooks = computed(() => {
+  let filtered = [ ...books.value ];
+
+  if (bookSearchQuery.value.trim()) {
+    filtered = filtered.filter(book => book.title.toLocaleLowerCase().includes(bookSearchQuery.value.toLocaleLowerCase()))
+  }
+
+  return filtered;
+});
+const availableBooks = computed(() => filteredBooks.value.filter(book => !selectedBookIds.value.has(book.id)));
 const selectedBooks = computed(() => books.value.filter(book => selectedBookIds.value.has(book.id)));
 const totalSelectedBooks = computed(() => selectedBooks.value.length);
 
@@ -53,6 +63,10 @@ function handleMarkAsReading(bookId) {
   const bookIndex = selectedBooks.value.findIndex(selectedBook => selectedBook.id === bookId);
 
   selectedBooks.value[bookIndex].isReading = true;
+}
+
+function handleBookSearch(query) {
+  bookSearchQuery.value = query;
 }
 
 onMounted(() => {
@@ -98,7 +112,11 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
     <main class="app__main">
       <div class="container container--fluid">
         <div class="app__content">
-          <AppToolbar @toggle-filter="handleToggleFilter" />
+          <AppToolbar
+            :search-query="bookSearchQuery"
+            @search-book="handleBookSearch"
+            @toggle-filter="handleToggleFilter"
+          />
 
           <BookList :books="availableBooks">
             <template v-slot="{ item }">

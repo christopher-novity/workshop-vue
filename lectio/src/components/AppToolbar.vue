@@ -1,16 +1,48 @@
-<script setup lang="ts">
-const emit = defineEmits(['toggleFilter']);
+<script setup>
+import { ref } from 'vue';
+
+const props = defineProps({
+  searchQuery: {
+    type: String,
+    default: ''
+  },
+});
+
+const emits = defineEmits(['toggle-filter', 'search-book']);
+
+const localSearchQuery = ref(props.searchQuery);
+
+function handleSearchInput($event) {
+  const query = $event.target.value.trim();
+
+  localSearchQuery.value = query;
+  emits('search-book', query);
+}
+
+function handleSubmitSearch() {
+  emits('search-book', localSearchQuery.value);
+}
 
 function handleToggleFilter() {
-  emit('toggleFilter');
+  emits('toggle-filter');
 }
 </script>
 
 <template>
   <div class="toolbar">
-    <form class="toolbar__search-form">
+    <form
+      class="toolbar__search-form"
+      @submit.prevent="handleSubmitSearch"
+    >
       <label for="search-books" class="sr-only">Search books</label>
-      <input id="search-books" type="text" name="Search books" placeholder="Search books..." />
+      <input
+        id="search-books"
+        type="text"
+        name="Search books"
+        placeholder="Search books..."
+        :value="localSearchQuery"
+        @input="handleSearchInput"
+      />
 
       <button type="submit" class="btn btn--icon">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">

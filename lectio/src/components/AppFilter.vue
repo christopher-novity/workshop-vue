@@ -1,8 +1,8 @@
-<script setup lang="ts">
-const emit = defineEmits(['toggleFilter']);
+<script setup>
+const emit = defineEmits(['toggle-filter']);
 
 function handleToggleFilter() {
-  emit('toggleFilter');
+  emit('toggle-filter');
 }
 </script>
 
