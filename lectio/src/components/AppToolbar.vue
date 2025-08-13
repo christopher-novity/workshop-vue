@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
   searchQuery: {
@@ -8,9 +8,10 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['toggle-filter', 'search-book']);
+const emits = defineEmits(['toggle-filter', 'search-book', 'clear-search']);
 
 const localSearchQuery = ref(props.searchQuery);
+const hasSearchQuery = computed(() => !!localSearchQuery.value.length);
 
 function handleSearchInput($event) {
   const query = $event.target.value.trim();
@@ -21,6 +22,11 @@ function handleSearchInput($event) {
 
 function handleSubmitSearch() {
   emits('search-book', localSearchQuery.value);
+}
+
+function handleClearSearch() {
+  localSearchQuery.value = '';
+  emits('clear-search');
 }
 
 function handleToggleFilter() {
@@ -44,14 +50,17 @@ function handleToggleFilter() {
         @input="handleSearchInput"
       />
 
-      <button type="submit" class="btn btn--icon">
+      <button
+        v-if="hasSearchQuery"
+        type="button"
+        class="btn btn--icon"
+        @click="handleClearSearch"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke="#3b4252">
-          <g>
-            <circle cx="11" cy="11" r="8"/><path d="m21 21l-4.3-4.3"/>
-          </g>
+          <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
 
-        <span class="sr-only">Search</span>
+        <span class="sr-only">Clear Search</span>
       </button>
     </form>
 

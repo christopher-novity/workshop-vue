@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, reactive, computed, onMounted, onUpdated, watch } from 'vue';
 
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppHeader from '@/components/AppHeader.vue';
@@ -15,6 +15,16 @@ const books = ref(mockBooks);
 const booksRead = ref([]);
 const selectedBookIds = ref(new Set());
 const bookSearchQuery = ref('');
+const selectedGenres = ref([]);
+const selectedPublicationDate = ref('');
+const selectedBookRating = ref('');
+const selectedBookLength = ref('');
+// const filters = ref({
+//   genres: [],
+//   yearRange: '',
+//   rating: '',
+//   length: ''
+// });
 
 const filteredBooks = computed(() => {
   let filtered = [ ...books.value ];
@@ -23,11 +33,57 @@ const filteredBooks = computed(() => {
     filtered = filtered.filter(book => book.title.toLocaleLowerCase().includes(bookSearchQuery.value.toLocaleLowerCase()))
   }
 
+  if (selectedGenres.value.length > 0) {
+    filtered = filtered.filter(book => 
+      selectedGenres.value.includes(book.genre)
+    );
+  }
+
+  if (selectedPublicationDate.value) {
+    filtered = filtered.filter(book => {
+      const year = new Date(book.publishedDate).getFullYear();
+      switch (selectedPublicationDate.value) {
+        case 'recent': return year >= 2020;
+        case 'modern': return year >= 2000 && year < 2020;
+        case 'classic': return year < 2000;
+        default: return true;
+      }
+    });
+  }
+
+  if (selectedBookRating.value) {
+    filtered = filtered.filter(book => {
+      switch (selectedBookRating.value) {
+        case 'excellent': return book.rating >= 4.5;
+        case 'good': return book.rating >= 4.0 && book.rating < 4.5;
+        case 'decent': return book.rating >= 3.5 && book.rating < 4.0;
+        default: return true;
+      }
+    });
+  }
+
+  if (selectedBookLength.value) {
+    filtered = filtered.filter(book => {
+      const descLength = book.pages;
+      switch (selectedBookLength.value) {
+        case 'quick': return descLength < 290;
+        case 'medium': return descLength >= 290 && descLength < 400;
+        case 'long': return descLength >= 400;
+        default: return true;
+      }
+    });
+  }
+
   return filtered;
 });
 const availableBooks = computed(() => filteredBooks.value.filter(book => !selectedBookIds.value.has(book.id)));
+const hasAvailableBooks = computed(() => !!availableBooks.value.length);
+
 const selectedBooks = computed(() => books.value.filter(book => selectedBookIds.value.has(book.id)));
+const hasSelectedBookd = computed(() => !!selectedBooks.value.length);
 const totalSelectedBooks = computed(() => selectedBooks.value.length);
+
+const genreOptions = computed(() => [...new Set(books.value.map(book => book.genre))].sort());
 
 const isSidebarVisible = ref(false);
 const isFilterVisible = ref(false);
@@ -44,10 +100,18 @@ function handleToggleFilter() {
 
 function handleSelectBook(bookId) {
   selectedBookIds.value.add(bookId);
+
+  if (!isSidebarVisible.value) {
+    isSidebarVisible.value = true;
+  }
 }
 
 function handleUnSelectBook(bookId) {
   selectedBookIds.value.delete(bookId);
+
+  if (selectedBookIds.value.size === 0) {
+    isSidebarVisible.value = false;
+  }
 }
 
 function handleAddToBooksRead(bookId) {
@@ -67,6 +131,34 @@ function handleMarkAsReading(bookId) {
 
 function handleBookSearch(query) {
   bookSearchQuery.value = query;
+}
+
+function handleClearBookSearch() {
+  bookSearchQuery.value = '';
+}
+
+function handleApplyGenreFilter(genres) {
+  selectedGenres.value = genres;
+}
+
+function handleApplyPublicationDateFilter(yearRange) {
+  selectedPublicationDate.value = yearRange;
+}
+
+function handleApplyBookRatingFilter(rating) {
+  selectedBookRating.value = rating;
+}
+
+function handleApplyBookLengthFilter(length) {
+  selectedBookLength.value = length;
+}
+
+function handleClearAllFilters() {
+  bookSearchQuery.value = '';
+  selectedGenres.value = [];
+  selectedPublicationDate.value = '';
+  selectedBookRating.value = '';
+  selectedBookLength.value = '';
 }
 
 onMounted(() => {
@@ -93,7 +185,7 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
     :selected-books="selectedBooks"
     @toggle-sidebar="handleToggleSidebar"
   >
-    <ReadList :selected-books="selectedBooks">
+    <ReadList v-if="hasSelectedBookd" :selected-books="selectedBooks">
       <template v-slot="{ item }">
         <ReadListItem
           :book="item"
@@ -104,10 +196,14 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
         />
       </template>
     </ReadList>
+
+    <template v-else>
+      <span class="empty-list">You have, no books selected yet</span>
+    </template>
   </AppSidebar>
 
   <div class="app__wrapper">
-    <AppHeader @toggle-sidebar="handleToggleSidebar" />
+    <AppHeader @toggle-sidebar="handleToggleSidebar"/>
 
     <main class="app__main">
       <div class="container container--fluid">
@@ -115,10 +211,11 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
           <AppToolbar
             :search-query="bookSearchQuery"
             @search-book="handleBookSearch"
+            @clear-search="handleClearBookSearch"
             @toggle-filter="handleToggleFilter"
           />
 
-          <BookList :books="availableBooks">
+          <BookList v-if="hasAvailableBooks" :books="availableBooks">
             <template v-slot="{ item }">
               <BookListItem
                 :book="item"
@@ -126,6 +223,10 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
               />
             </template>
           </BookList>
+
+          <template v-else>
+            <span class="empty-list">No books mactching filter criteria found</span>
+          </template>
         </div>
       </div>
     </main>
@@ -135,7 +236,17 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
 
   <AppFilter
     v-if="isFilterVisible"
+    :genre-options="genreOptions"
+    :selected-genres="selectedGenres"
+    :selected-publication-date="selectedPublicationDate"
+    :selected-book-rating="selectedBookRating"
+    :selected-book-length="selectedBookLength"
     @toggle-filter="handleToggleFilter"
+    @filter-by-genre="handleApplyGenreFilter"
+    @filter-by-publication-date="handleApplyPublicationDateFilter"
+    @filter-by-rating="handleApplyBookRatingFilter"
+    @filter-by-length="handleApplyBookLengthFilter"
+    @clear-filters="handleClearAllFilters"
   />
 </template>
 
@@ -172,5 +283,12 @@ watch(isSidebarVisible, (newIsSidebarVisible) => {
 .app__main > div,
 .app__content {
   height: 100%;
+}
+
+.empty-list {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
+  color: var(--color-text-muted);
 }
 </style>

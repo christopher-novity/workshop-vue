@@ -47,7 +47,7 @@ function handleToggleSidebar() {
 
     <footer class="app__sidebar-footer">
       <div class="reading-progress">
-        <label>Current Reading Progress: <span>{{ totalReadingInProgress }}/{{ totalSelectedBooks }}</span></label>
+        <!-- <label>Current Reading Progress: <span>{{ totalReadingInProgress }}/{{ totalSelectedBooks }}</span></label> -->
         <label>Total Books Read: <span>{{ totalBooksRead }}</span></label>
         <!-- <input id="progress" type="range" value="1" max="5" step="1" /> -->
       </div>

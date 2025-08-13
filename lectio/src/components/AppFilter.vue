@@ -1,8 +1,142 @@
 <script setup>
-const emit = defineEmits(['toggle-filter']);
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+  genreOptions: {
+    type: Array,
+    required: true,
+  },
+  selectedGenres: {
+    type: Array,
+    default: [],
+  },
+  selectedPublicationDate: {
+    type: String,
+    default: ''
+  },
+  selectedBookRating: {
+    type: String,
+    default: ''
+  },
+  selectedBookLength: {
+    type: String,
+    default: ''
+  },
+});
+
+const emits = defineEmits([
+  'toggle-filter',
+  'filter-by-genre',
+  'filter-by-publication-date',
+  'filter-by-rating',
+  'filter-by-length',
+  'clear-filters',
+]);
+
+const genreFilter = ref(props.selectedGenres);
+watch(() => props.selectedGenres, (nextSelectedGenres) => {
+  genreFilter.value = [ ...nextSelectedGenres ];
+});
+
+function handleGenreFilterChange(genre, isChecked) {
+  if (isChecked) {
+    genreFilter.value.push(genre);
+  } else {
+    const index = genreFilter.value.indexOf(genre);
+
+    if (index > -1) {
+      genreFilter.value.splice(index, 1);
+    }
+  }
+  emits('filter-by-genre', [...genreFilter.value]);
+}
+
+const publicationDateOptions = [
+  {
+    slug: 'recent',
+    label: 'Recent (2020+)',
+  },
+  {
+    slug: 'modern',
+    label: 'Modern (2000-2019)',
+  },
+  {
+    slug: 'classic',
+    label: 'Classic (Before 2000)',
+  },
+];
+const publicationDateFilter = ref(props.selectedPublicationDate);
+watch(() => props.selectedPublicationDate, (nextSelectedPublicationDate) => {
+  publicationDateFilter.value = nextSelectedPublicationDate;
+});
+
+function handlePublicationDateFilterChange($event) {
+  publicationDateFilter.value = $event.target.value;
+
+  emits('filter-by-publication-date', publicationDateFilter.value);
+}
+
+const ratingOptions = [
+  {
+    slug: 'excellent',
+    label: 'Excellent (4.5+ stars)',
+  },
+  {
+    slug: 'good',
+    label: 'Good (4.0-4.4 stars)',
+  },
+  {
+    slug: 'decent',
+    label: 'Decent (3.5-3.9 stars)',
+  },
+];
+const ratingFilter = ref(props.selectedBookRating);
+watch(() => props.selectedBookRating, (nextSelectedBookRating) => {
+  ratingFilter.value = nextSelectedBookRating;
+});
+
+function handleRatingFilterChange($event) {
+  ratingFilter.value = $event.target.value;
+
+  emits('filter-by-rating', ratingFilter.value);
+}
+
+const lengthOptions = [
+  {
+    slug: 'quick',
+    label: 'Quick Read',
+  },
+  {
+    slug: 'medium',
+    label: 'Medium Read',
+  },
+  {
+    slug: 'long',
+    label: 'Long Read',
+  },
+];
+const lengthFilter = ref(props.selectedBookLength);
+watch(() => props.selectedBookLength, (nextSelectedBookLength) => {
+  lengthFilter.value = nextSelectedBookLength;
+});
+
+function handleLengthFilterChange($event) {
+  lengthFilter.value = $event.target.value;
+
+  emits('filter-by-length', lengthFilter.value);
+}
 
 function handleToggleFilter() {
-  emit('toggle-filter');
+  emits('toggle-filter');
+}
+
+function handleClearAll() {
+  genreFilter.value = [];
+  publicationDateFilter.value = '';
+  ratingFilter.value = '';
+  lengthFilter.value = '';
+
+  emits('clear-filters');
 }
 </script>
 
@@ -29,24 +163,19 @@ function handleToggleFilter() {
         <h4>Genre</h4>
 
         <ul>
-          <li>
-            <input id="genre-1" type="checkbox" name="genre" value="genre-1" />
-            <label for="genre-1">Genre 1</label>
-          </li>
-
-          <li>
-            <input id="genre-2" type="checkbox" name="genre" value="genre-2" />
-            <label for="genre-2">Genre 2</label>
-          </li>
-
-          <li>
-            <input id="genre-3" type="checkbox" name="genre" value="genre-3" />
-            <label for="genre-3">Genre 3</label>
-          </li>
-
-          <li>
-            <input id="genre-4" type="checkbox" name="genre" value="genre-4" />
-            <label for="genre-4">Genre 4</label>
+          <li
+            v-for="genre in genreOptions"
+            :key="genre"
+          >
+            <input
+              :id="`genre-${genre}`"
+              type="checkbox"
+              name="genre"
+              :value="genre"
+              :checked="genreFilter.includes(genre)"
+              @change="handleGenreFilterChange(genre, $event.target.checked)"
+            />
+            <label :for="`genre-${genre}`">{{ genre }}</label>
           </li>
         </ul>
       </fieldset>
@@ -55,24 +184,40 @@ function handleToggleFilter() {
         <h4>Publication Year</h4>
 
         <ul>
-          <li>
-            <input id="publication-1" type="checkbox" name="publication" value="publication-1" />
-            <label for="publication-1">Publication 1</label>
+          <li
+            v-for="option in publicationDateOptions"
+            :key="option.slug"
+          >
+            <input
+              :id="`publication-${option.slug}`"
+              type="radio"
+              name="publicationDate"
+              :value="option.slug"
+              :checked="publicationDateFilter === option.slug"
+              @change="handlePublicationDateFilterChange"
+            />
+            <label :for="`publication-${option.slug}`">{{ option.label }}</label>
           </li>
+        </ul>
+      </fieldset>
 
-          <li>
-            <input id="publication-2" type="checkbox" name="publication" value="publication-2" />
-            <label for="publication-2">Publication 2</label>
-          </li>
+      <fieldset>
+        <h4>Book Rating</h4>
 
-          <li>
-            <input id="publication-3" type="checkbox" name="publication" value="publication-3" />
-            <label for="publication-3">Publication 3</label>
-          </li>
-
-          <li>
-            <input id="publication4" type="checkbox" name="publication" value="publication-4" />
-            <label for="publication4">Publication 4</label>
+        <ul>
+          <li
+            v-for="option in ratingOptions"
+            :key="option.slug"
+          >
+            <input
+              :id="`rating-${option.slug}`"
+              type="radio"
+              name="rating"
+              :value="option.slug"
+              :checked="ratingFilter === option.slug"
+              @change="handleRatingFilterChange"
+            />
+            <label :for="`rating-${option.slug}`">{{ option.label }}</label>
           </li>
         </ul>
       </fieldset>
@@ -81,28 +226,34 @@ function handleToggleFilter() {
         <h4>Book Length</h4>
 
         <ul>
-          <li>
-            <input id="quick" type="checkbox" name="book-length" value="quick" />
-            <label for="quick">Quick</label>
-          </li>
-
-          <li>
-            <input id="medium" type="checkbox" name="book-length" value="medium" />
-            <label for="medium">Medium</label>
-          </li>
-
-          <li>
-            <input id="long" type="checkbox" name="book-length" value="long" />
-            <label for="long">Long</label>
+          <li
+            v-for="option in lengthOptions"
+            :key="option.slug"
+          >
+            <input
+              :id="`length-${option.slug}`"
+              type="radio"
+              name="bookLength"
+              :value="option.slug"
+              :checked="lengthFilter === option.slug"
+              @change="handleLengthFilterChange"
+            />
+            <label :for="`length-${option.slug}`">{{ option.label }}</label>
           </li>
         </ul>
       </fieldset>
     </div>
 
     <footer class="app__filter-footer">
-      <button type="button" class="btn btn--primary">Clear All</button>
+      <button
+        type="button"
+        class="btn btn--primary"
+        @click="handleClearAll"
+      >
+        Clear All
+      </button>
 
-      <button type="button" class="btn btn--secondary">Apply</button>
+      <!-- <button type="button" class="btn btn--secondary">Apply</button> -->
     </footer>
   </form>
 </template>
@@ -141,6 +292,10 @@ function handleToggleFilter() {
   height: var(--header-height);
   padding-block: 0.5rem;
   padding-inline: var(--spacing);
+}
+
+.app__filter-footer {
+  justify-content: end;
 }
 
 .app__filter ul {
